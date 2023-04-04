@@ -40,9 +40,11 @@ class ArrowPainter extends CustomPainter {
       ..lineTo(240.w, 280.h)
       ..lineTo(247.w, 275.h)
       ..lineTo(280.w, 300.h)
-       ..lineTo(290.w, 330.h)
-    
-    ..lineTo(295.w, size.height-10);
+       ..lineTo(284.w, 330.h)
+    ..lineTo(288.w, size.height+5)
+    ..lineTo(270.w, size.height-5)
+    ..lineTo(288.w, size.height+5)
+    ..lineTo(300.w, size.height-20);
 
     canvas.drawPath(path, _paint);
   }
