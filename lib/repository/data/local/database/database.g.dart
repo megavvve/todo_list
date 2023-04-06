@@ -287,8 +287,8 @@ class TodosCompanion extends UpdateCompanion<Todo> {
   }
 }
 
-abstract class _$AppDatabes extends GeneratedDatabase {
-  _$AppDatabes(QueryExecutor e) : super(e);
+abstract class _$AppDatabase extends GeneratedDatabase {
+  _$AppDatabase(QueryExecutor e) : super(e);
   late final $TodosTable todos = $TodosTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>

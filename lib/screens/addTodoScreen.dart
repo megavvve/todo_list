@@ -1,11 +1,14 @@
-
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:todo_list_hw2/bloc/todoList_bloc.dart';
 import 'package:todo_list_hw2/models/todo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_hw2/repository/data/local/database/database.dart';
 import 'package:todo_list_hw2/screens/mainScreen.dart';
+import '../repository/data/local/entity/todos_entity.dart';
 import '../widgets/if_not_null_widget.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -16,6 +19,7 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
+  late AppDatabase _db;
   late TextEditingController titleController;
   late TextEditingController dateController;
   late TextEditingController timeController;
@@ -23,6 +27,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   @override
   void initState() {
     super.initState();
+    _db = AppDatabase();
+    //AppDatabase _db = AppDatabase(NativeDatabase.memory());
     titleController = TextEditingController();
     dateController = TextEditingController(
         text:
@@ -37,9 +43,11 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     titleController.dispose();
     dateController.dispose();
     timeController.dispose();
+    _db.close();
     super.dispose();
   }
 
+  int i = 0;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TodosBloc, TodosState>(
@@ -244,15 +252,29 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         ),
                       ),
                       onPressed: () {
-                        var todo = Todo(
+                        final entity = TodosCompanion(
+                          name: drift.Value(titleController.text),
+                          time: drift.Value(timeController.text),
+                          date: drift.Value(dateController.text),
+                          isDone: drift.Value(false),
+                        );
+
+                        context.read<TodosBloc>().add(AddTodo(entity));
+                        
+                        /*_db.addTodo(entity).then((value) =>
+                            ScaffoldMessenger.of(context).showMaterialBanner(
+                                MaterialBanner(
+                                    content: Text("New todo was add"), actions: [TextButton(onPressed: (){ScaffoldMessenger.of(context)}, child: Text('close'))])));
+*/
+                        print(_db.todos.id);
+                        /*var todo = Todo(
                           name: titleController.text,
                           time: timeController.text,
                           date: dateController.text,
-                        );
-                        context.read<TodosBloc>().add(AddTodo(todo: todo));
+                          isDone: false,
+                        );*/
+                        //context.read<TodosBloc>().add(AddTodo(todo: todo));
                         Navigator.pop(context);
-                        
-                        
                       },
                       child: Container(
                         width: 316.w,

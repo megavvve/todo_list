@@ -2,20 +2,20 @@ class Todo {
   final String name;
   final String time;
   final String date;
-  bool? isDone = false ;
+  bool? isDone ;
 
   Todo({
     required this.name,
     required this.time,
     required this.date, 
-    this.isDone,
+    required this.isDone,
   });
-  Todo copyWith({String? title, bool? isCompleted}) {
+  Todo copyWith({String? title, bool? isDone}) {
     return Todo(
       name: name,
       time: time,
       date:date,
-      isDone: !isDone!,
+      isDone: isDone ?? this.isDone,
     );
   }
 

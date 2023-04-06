@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_hw2/repository/data/local/database/database.dart';
 
-import '../models/todo.dart';
+import '../bloc/todoList_bloc.dart';
+//import '../models/todo.dart';
 
 class TodoTile extends StatefulWidget {
+  
   final Todo todo;
   const TodoTile({super.key, required this.todo});
   @override
@@ -11,8 +15,6 @@ class TodoTile extends StatefulWidget {
 }
 
 class _TodoTileState extends State<TodoTile> {
-  bool _isChecked = false;
-
   @override
   Widget build(BuildContext context) {
     var todo = widget.todo;
@@ -29,12 +31,10 @@ class _TodoTileState extends State<TodoTile> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6.0),
                 ),
-                value: _isChecked,
+                value: todo.isDone,
                 onChanged: (value) {
-                  //context.read<TodosBloc>().add(UpdateTodos(todo: todo));
-                  setState(() {
-                    _isChecked = value!;
-                  });
+
+                  //context.read<TodosBloc>().add(UpdateTodo(updatedTodo:todo));
                 }),
           ),
           SizedBox(
@@ -50,7 +50,11 @@ class _TodoTileState extends State<TodoTile> {
                   softWrap: true,
                   style: TextStyle(
                     fontSize: 15.sp,
-                    color: Colors.grey.shade700,
+                    color: todo.isDone
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade700,
+                    decoration:
+                        todo.isDone ? TextDecoration.lineThrough : null,
                   ),
                 ),
               ),
@@ -58,14 +62,24 @@ class _TodoTileState extends State<TodoTile> {
                 children: [
                   Text(
                     todo.date,
-                    style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                    style: TextStyle(
+                      color: todo.isDone ? Colors.grey.shade400 : Colors.grey,
+                      fontSize: 13.sp,
+                      decoration:
+                          todo.isDone ? TextDecoration.lineThrough : null,
+                    ),
                   ),
                   SizedBox(
                     width: 6.w,
                   ),
                   Text(
                     todo.time,
-                    style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                    style: TextStyle(
+                      color: todo.isDone ? Colors.grey.shade400 : Colors.grey,
+                      fontSize: 13.sp,
+                      decoration:
+                          todo.isDone ? TextDecoration.lineThrough : null,
+                    ),
                   ),
                 ],
               )
