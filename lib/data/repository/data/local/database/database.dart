@@ -4,9 +4,9 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-import 'package:todo_list_hw2/bloc/todoList_bloc.dart';
 
-import '../entity/todos_entity.dart';
+import '../../../../../domain/entity/todos_entity.dart';
+
 part 'database.g.dart';
 
 LazyDatabase _openConnection() {
@@ -24,33 +24,32 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 2;
 
- // final db = AppDatabase(NativeDatabase.memory());
+  // final db = AppDatabase(NativeDatabase.memory());
   Future<List<Todo>> getTodosList() async {
     return await select(todos).get();
   }
-
 
   Future<Todo> getTodo(int id) async {
     return await (select(todos)..where((tbl) => tbl.id.equals(id))).getSingle();
   }
 
-  Future<bool> updateTodo(TodosCompanion entity) async {
+  Future<bool> updateTodo(Todo entity) async {
     return await update(todos).replace(entity);
   }
 
-  Future<int> addTodo(TodosCompanion entity) async {
+  Future<int> addTodo(Todo entity) async {
     return await into(todos).insert(entity);
   }
 
   Future<int> deleteTodo(int id) async {
     return await (delete(todos)..where((tbl) => tbl.id.equals(id))).go();
   }
+
   Future<void> deleteEverything() {
-  return transaction(() async {
-    for (final table in allTables) {
-      await delete(table).go();
-    }
-  });
-}
-  
+    return transaction(() async {
+      for (final table in allTables) {
+        await delete(table).go();
+      }
+    });
+  }
 }

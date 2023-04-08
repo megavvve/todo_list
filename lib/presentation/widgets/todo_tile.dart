@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_list_hw2/repository/data/local/database/database.dart';
-
-import '../bloc/todoList_bloc.dart';
-//import '../models/todo.dart';
+import '../../data/repository/data/local/database/database.dart';
+import '../../domain/bloc/todo_bloc.dart';
 
 class TodoTile extends StatefulWidget {
-  
   final Todo todo;
   const TodoTile({super.key, required this.todo});
   @override
@@ -18,6 +15,7 @@ class _TodoTileState extends State<TodoTile> {
   @override
   Widget build(BuildContext context) {
     var todo = widget.todo;
+
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
       child: Row(
@@ -25,16 +23,15 @@ class _TodoTileState extends State<TodoTile> {
           Transform.scale(
             scale: 1.5,
             child: Checkbox(
-                side: BorderSide(
+                side: const BorderSide(
                   color: Colors.grey,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
+                  borderRadius: BorderRadius.circular(6.0.sp),
                 ),
                 value: todo.isDone,
                 onChanged: (value) {
-
-                  //context.read<TodosBloc>().add(UpdateTodo(updatedTodo:todo));
+                  context.read<TodosBloc>().add(UpdateTodo(todo: todo));
                 }),
           ),
           SizedBox(
@@ -43,7 +40,7 @@ class _TodoTileState extends State<TodoTile> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: 270.w,
                 child: Text(
                   todo.name,
@@ -53,8 +50,7 @@ class _TodoTileState extends State<TodoTile> {
                     color: todo.isDone
                         ? Colors.grey.shade400
                         : Colors.grey.shade700,
-                    decoration:
-                        todo.isDone ? TextDecoration.lineThrough : null,
+                    decoration: todo.isDone ? TextDecoration.lineThrough : null,
                   ),
                 ),
               ),

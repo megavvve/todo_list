@@ -1,15 +1,11 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:drift/drift.dart' as drift;
-import 'package:todo_list_hw2/bloc/todoList_bloc.dart';
-import 'package:todo_list_hw2/models/todo.dart';
+
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list_hw2/repository/data/local/database/database.dart';
-import 'package:todo_list_hw2/screens/mainScreen.dart';
-import '../repository/data/local/entity/todos_entity.dart';
-import '../widgets/if_not_null_widget.dart';
+
+import '../../data/repository/data/local/database/database.dart';
+import '../../domain/bloc/todo_bloc.dart';
 
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key});
@@ -28,14 +24,14 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   void initState() {
     super.initState();
     _db = AppDatabase();
-    //AppDatabase _db = AppDatabase(NativeDatabase.memory());
+    DateTime dt = DateTime.now();
+    TimeOfDay td = TimeOfDay.now();
     titleController = TextEditingController();
     dateController = TextEditingController(
         text:
-            '${DateTime.now().day.toString()}.${DateTime.now().month.toString()}.${DateTime.now().year.toString()}');
+            '${dt.toUtc().day.toString()}.${dt.toUtc().month.toString()}.${dt.toUtc().year.toString()}');
     timeController = TextEditingController(
-        text:
-            '${TimeOfDay.now().hour.toString()}:${TimeOfDay.now().minute.toString()}');
+        text: '${td.hour.toString()}:${td.minute.toString()}');
   }
 
   @override
@@ -50,6 +46,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   int i = 0;
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<TodosBloc>();
     return BlocBuilder<TodosBloc, TodosState>(
       builder: (context, state) {
         return SizedBox(
@@ -169,19 +166,19 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                                 ),
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      BorderRadius.all(Radius.circular(20.sp)),
                                   borderSide: BorderSide(
                                       width: 1, color: Colors.grey.shade300),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      BorderRadius.all(Radius.circular(20.sp)),
                                   borderSide: BorderSide(
                                       width: 1, color: Colors.grey.shade300),
                                 ),
                                 labelStyle:
                                     TextStyle(color: Colors.grey.shade300),
-                                border: OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
                                 hintText: '00: 00',
                               ),
                             )),
@@ -218,20 +215,20 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                                 ),
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      BorderRadius.all(Radius.circular(20.sp)),
                                   borderSide: BorderSide(
                                       width: 1, color: Colors.grey.shade300),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
+                                      BorderRadius.all(Radius.circular(20.sp)),
                                   borderSide: BorderSide(
                                       width: 1, color: Colors.grey.shade300),
                                 ),
                                 labelStyle: TextStyle(
                                     color: Colors.grey.shade300,
                                     fontSize: 28.h),
-                                border: OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
                                 hintText: '09.04.2023',
                               ),
                             )),
@@ -252,28 +249,17 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         ),
                       ),
                       onPressed: () {
-                        final entity = TodosCompanion(
-                          name: drift.Value(titleController.text),
-                          time: drift.Value(timeController.text),
-                          date: drift.Value(dateController.text),
-                          isDone: drift.Value(false),
-                        );
-
-                        context.read<TodosBloc>().add(AddTodo(entity));
-                        
-                        /*_db.addTodo(entity).then((value) =>
-                            ScaffoldMessenger.of(context).showMaterialBanner(
-                                MaterialBanner(
-                                    content: Text("New todo was add"), actions: [TextButton(onPressed: (){ScaffoldMessenger.of(context)}, child: Text('close'))])));
-*/
-                        print(_db.todos.id);
-                        /*var todo = Todo(
+                        bloc.add(AddTodo(
+                            todo: Todo(
                           name: titleController.text,
                           time: timeController.text,
                           date: dateController.text,
                           isDone: false,
-                        );*/
-                        //context.read<TodosBloc>().add(AddTodo(todo: todo));
+                          id: state.todoList.isNotEmpty
+                              ? state.todoList.last.id + 1
+                              : 0,
+                        )));
+
                         Navigator.pop(context);
                       },
                       child: Container(

@@ -114,7 +114,7 @@ class Todo extends DataClass implements Insertable<Todo> {
   final String name;
   final String time;
   final String date;
-  final bool isDone;
+   final bool isDone;
   const Todo(
       {required this.id,
       required this.name,
