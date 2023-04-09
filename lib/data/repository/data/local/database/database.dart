@@ -5,7 +5,7 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-import '../../../../../domain/entity/todos_entity.dart';
+import '../../../../../domain/entity/repository_entity.dart';
 
 part 'database.g.dart';
 

@@ -17,7 +17,7 @@ class InitLoad extends TodoEvent {
 class LoadTodos extends TodoEvent {}
 
 class GetTodos extends TodoEvent {
-  GetTodos();
+  const GetTodos();
   @override
   List<Object> get props => [];
 }
@@ -42,4 +42,3 @@ class UpdateTodo extends TodoEvent {
   @override
   List<Object> get props => [todo];
 }
-

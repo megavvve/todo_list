@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/repository/data/local/database/database.dart';
 
-
-
-
 part 'todo_event.dart';
 part 'todo_state.dart';
 
@@ -42,7 +39,6 @@ class TodosBloc extends Bloc<TodoEvent, TodosState> {
   }
 
   Future<void> _onInitLoad(InitLoad event, Emitter<TodosState> emit) async {
-    final state = this.state;
 
     List<Todo> allTodos = await db.getTodosList();
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-import 'package:todo_list_hw2/presentation/pages/main_screen.dart';
+import 'package:todo_list_hw2/presentation/pages/main_screen/main_screen.dart';
 
 import 'domain/bloc/todo_bloc.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSwatch().copyWith(
             secondary: Colors.black,
           )),
-          home: const MyHomePage(),
+          home: const MainScreen(),
         ),
       ),
     );

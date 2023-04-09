@@ -3,11 +3,34 @@ import 'dart:ui' as ui;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ArrowPainter extends CustomPainter {
+
+
+
+class CustomArrow extends StatelessWidget {
+  final double _thickness;
+  final double _height;
+
+  const CustomArrow(this._thickness, this._height, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _height * 0.4.w,
+      height: _height,
+      child: CustomPaint(
+        painter: customArrow(_thickness),
+      ),
+    );
+  }
+}
+
+
+
+class customArrow extends CustomPainter {
   final Paint _paint;
   final double _thickness;
 
-  ArrowPainter(this._thickness)
+  customArrow(this._thickness)
       : _paint = Paint()
           ..color = Colors.black
           ..strokeWidth = _thickness
@@ -41,10 +64,10 @@ class ArrowPainter extends CustomPainter {
       ..lineTo(247.w, 275.h)
       ..lineTo(280.w, 300.h)
       ..lineTo(284.w, 330.h)
-      ..lineTo(288.w, size.height + 5)
-      ..lineTo(270.w, size.height - 5)
-      ..lineTo(288.w, size.height + 5)
-      ..lineTo(300.w, size.height - 20);
+      ..lineTo(288.w, size.height + 5.h)
+      ..lineTo(270.w, size.height - 5.h)
+      ..lineTo(288.w, size.height + 5.h)
+      ..lineTo(300.w, size.height - 20.h);
 
     canvas.drawPath(path, _paint);
   }
@@ -53,20 +76,4 @@ class ArrowPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
-class customArrow extends StatelessWidget {
-  final double _thickness;
-  final double _height;
 
-  customArrow(this._thickness, this._height);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: _height * 0.4,
-      height: _height,
-      child: CustomPaint(
-        painter: ArrowPainter(_thickness),
-      ),
-    );
-  }
-}

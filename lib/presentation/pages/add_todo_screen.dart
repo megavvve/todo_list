@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/repository/data/local/database/database.dart';
@@ -24,14 +23,15 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   void initState() {
     super.initState();
     _db = AppDatabase();
-    DateTime dt = DateTime.now();
-    TimeOfDay td = TimeOfDay.now();
+    DateTime dt = DateTime.now().toLocal();
+
     titleController = TextEditingController();
     dateController = TextEditingController(
         text:
-            '${dt.toUtc().day.toString()}.${dt.toUtc().month.toString()}.${dt.toUtc().year.toString()}');
+            '${dt.day.toString().length == 1 ? "0${dt.day}" : dt.day}.${dt.month.toString().length == 1 ? "0${dt.month}" : dt.month}.${dt.year.toString()}');
     timeController = TextEditingController(
-        text: '${td.hour.toString()}:${td.minute.toString()}');
+        text:
+            '${(dt.hour).toString().length == 1 ? "0${dt.hour}" : dt.hour}:${dt.minute.toString().length == 1 ? "0${dt.minute}" : dt.minute}');
   }
 
   @override
@@ -113,7 +113,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         Text(
                           'Name',
                           style: TextStyle(
-                              fontSize: 20.h, fontWeight: FontWeight.bold),
+                              fontSize: 20.sp, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           width: 19.w,
@@ -244,23 +244,45 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+                            borderRadius: BorderRadius.circular(18.0.sp),
                           ),
                         ),
                       ),
                       onPressed: () {
-                        bloc.add(AddTodo(
-                            todo: Todo(
-                          name: titleController.text,
-                          time: timeController.text,
-                          date: dateController.text,
-                          isDone: false,
-                          id: state.todoList.isNotEmpty
-                              ? state.todoList.last.id + 1
-                              : 0,
-                        )));
+                        if (titleController.text.isEmpty ||
+                            timeController.text.isEmpty ||
+                            dateController.text.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Ошибка ввода данных'),
+                                  content: const Text(
+                                      'Одно или несколько полей не заполненны.'),
+                                  actions: <Widget>[
+                                    FloatingActionButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Ок'),
+                                    )
+                                  ],
+                                );
+                              });
+                        } else {
+                          bloc.add(AddTodo(
+                              todo: Todo(
+                            name: titleController.text,
+                            time: timeController.text,
+                            date: dateController.text,
+                            isDone: false,
+                            id: state.todoList.isNotEmpty
+                                ? state.todoList.last.id + 1
+                                : 0,
+                          )));
 
-                        Navigator.pop(context);
+                          Navigator.pop(context);
+                        }
                       },
                       child: Container(
                         width: 316.w,
@@ -269,7 +291,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         child: Center(
                             child: Text(
                           'Done',
-                          style: TextStyle(fontSize: 14.h),
+                          style: TextStyle(fontSize: 14.sp),
                         )),
                       ),
                     ),
