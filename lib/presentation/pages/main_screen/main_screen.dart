@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_hw2/presentation/bloc/todo_bloc.dart';
 import 'package:todo_list_hw2/presentation/pages/main_screen/screens/arrow_screen.dart';
 import 'package:todo_list_hw2/presentation/pages/main_screen/screens/todos_screen.dart';
 
-import '../../../data/repository/data/local/database/database.dart';
-import '../../../domain/bloc/todo_bloc.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -18,7 +18,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final AppDatabase db;
   int _selectedTab = 0;
   late Widget body;
   String sortType = "";
@@ -43,8 +42,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     final bloc = BlocProvider.of<TodosBloc>(context);
     bloc.add(const InitLoad());
-    db = AppDatabase();
-    //db.deleteEverything(); //удаление все бд
+  
   }
 
   @override

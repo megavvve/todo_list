@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import '../../../../data/repository/data/local/database/database.dart';
-import '../../../../domain/bloc/todo_bloc.dart';
+import 'package:todo_list_hw2/data/database.dart';
+import 'package:todo_list_hw2/presentation/bloc/todo_bloc.dart';
+
+
+
 
 class TodoTile extends StatelessWidget {
   final Todo todo;

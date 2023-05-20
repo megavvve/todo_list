@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_hw2/data/database.dart';
+import 'package:todo_list_hw2/presentation/bloc/todo_bloc.dart';
 
-import '../../data/repository/data/local/database/database.dart';
-import '../../domain/bloc/todo_bloc.dart';
 
 class AddTodoScreen extends StatefulWidget {
   const AddTodoScreen({super.key});
@@ -14,7 +14,7 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
-  late AppDatabase _db;
+
   late TextEditingController titleController;
   late TextEditingController dateController;
   late TextEditingController timeController;
@@ -22,7 +22,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   @override
   void initState() {
     super.initState();
-    _db = AppDatabase();
+   
     DateTime dt = DateTime.now().toLocal();
 
     titleController = TextEditingController();
@@ -39,7 +39,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     titleController.dispose();
     dateController.dispose();
     timeController.dispose();
-    _db.close();
+
     super.dispose();
   }
 
@@ -78,24 +78,28 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                           Text(
                             'Close',
                             style:
-                                TextStyle(color: Colors.blue, fontSize: 17.sp),
+                                TextStyle(color: Colors.blue, fontSize: 17.sp,),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(width: 70.w),
+                    SizedBox(width: 70.w,),
                     Text(
                       'Task',
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 29.w, horizontal: 37.h),
+                padding: EdgeInsets.symmetric(
+                  vertical: 29.w,
+                  horizontal: 37.h,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +107,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     Text(
                       'Add a task',
                       style: TextStyle(
-                          fontSize: 41.h, fontWeight: FontWeight.bold),
+                          fontSize: 41.h, fontWeight: FontWeight.bold,),
                     ),
                     SizedBox(
                       height: 43.h,
@@ -113,7 +117,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         Text(
                           'Name',
                           style: TextStyle(
-                              fontSize: 20.sp, fontWeight: FontWeight.bold),
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(
                           width: 19.w,
@@ -151,7 +157,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         SizedBox(
                             width: 86.w,
                             child: TextField(
-                              style: TextStyle(fontSize: 22.sp),
+                              style: TextStyle(fontSize: 22.sp,),
                               controller: timeController,
                               autofocus: true,
                               decoration: InputDecoration(
@@ -160,24 +166,38 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                                 hintStyle: TextStyle(
                                     fontSize: 22.h, color: Colors.grey),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(
+                                    20.sp,
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 disabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.sp)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                      20.sp,
+                                    ),
+                                  ),
                                   borderSide: BorderSide(
-                                      width: 1, color: Colors.grey.shade300),
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.sp)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                      20.sp,
+                                    ),
+                                  ),
                                   borderSide: BorderSide(
-                                      width: 1, color: Colors.grey.shade300),
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
-                                labelStyle:
-                                    TextStyle(color: Colors.grey.shade300),
+                                labelStyle: TextStyle(
+                                  color: Colors.grey.shade300,
+                                ),
                                 border: const OutlineInputBorder(),
                                 hintText: '00: 00',
                               ),
@@ -192,7 +212,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         Text(
                           'Date',
                           style: TextStyle(
-                              fontSize: 20.h, fontWeight: FontWeight.bold),
+                            fontSize: 20.h,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(
                           width: 19.w,
@@ -207,23 +229,36 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                                 filled: true,
                                 fillColor: Colors.grey.shade300,
                                 hintStyle: TextStyle(
-                                    fontSize: 22.h, color: Colors.grey),
+                                  fontSize: 22.h,
+                                  color: Colors.grey,
+                                ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(20,),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 disabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.sp)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                      20.sp,
+                                    ),
+                                  ),
                                   borderSide: BorderSide(
-                                      width: 1, color: Colors.grey.shade300),
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.sp)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                      20.sp,
+                                    ),
+                                  ),
                                   borderSide: BorderSide(
-                                      width: 1, color: Colors.grey.shade300),
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 labelStyle: TextStyle(
                                     color: Colors.grey.shade300,
@@ -244,7 +279,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0.sp),
+                            borderRadius: BorderRadius.circular(18.0.sp,),
                           ),
                         ),
                       ),
@@ -270,16 +305,19 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                                 );
                               });
                         } else {
-                          bloc.add(AddTodo(
+                          bloc.add(
+                            AddTodo(
                               todo: Todo(
-                            name: titleController.text,
-                            time: timeController.text,
-                            date: dateController.text,
-                            isDone: false,
-                            id: state.todoList.isNotEmpty
-                                ? state.todoList.last.id + 1
-                                : 0,
-                          )));
+                                name: titleController.text,
+                                time: timeController.text,
+                                date: dateController.text,
+                                isDone: false,
+                                id: state.todoList.isNotEmpty
+                                    ? state.todoList.last.id + 1
+                                    : 0,
+                              ),
+                            ),
+                          );
 
                           Navigator.pop(context);
                         }
@@ -289,10 +327,11 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         height: 46.h,
                         color: Colors.black,
                         child: Center(
-                            child: Text(
-                          'Done',
-                          style: TextStyle(fontSize: 14.sp),
-                        )),
+                          child: Text(
+                            'Done',
+                            style: TextStyle(fontSize: 14.sp),
+                          ),
+                        ),
                       ),
                     ),
                   ],

@@ -4,16 +4,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:todo_list_hw2/presentation/pages/add_todo_screen.dart';
 import 'package:todo_list_hw2/presentation/pages/info_screen.dart';
 import 'package:todo_list_hw2/presentation/pages/main_screen/widgets/custom_arrow.dart';
+import 'package:todo_list_hw2/utils/app_text.dart';
 
 class ArrowScreen extends StatelessWidget {
   const ArrowScreen({super.key});
   void _addTask(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape:  RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.sp))),
-        builder: (context) => const AddTodoScreen());
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20.sp),
+        ),
+      ),
+      builder: (context) => const AddTodoScreen(),
+    );
   }
 
   @override
@@ -40,7 +45,14 @@ class ArrowScreen extends StatelessWidget {
           SizedBox(
             height: 41.h,
           ),
-          Container(width:153.w ,height:115.h ,child: Text("Looks like there is no tasks yet! Go ahead and push a plus button below",style: TextStyle(fontSize: 15.sp,color: Colors.grey),),),
+          SizedBox(
+            width: 153.w,
+            height: 115.h,
+            child: Text(
+              textForArrowScreen,
+              style: TextStyle(fontSize: 15.sp, color: Colors.grey,),
+            ),
+          ),
           CustomArrow(3.sp, 350.h),
           Expanded(
             child: Row(
@@ -52,7 +64,8 @@ class ArrowScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const InfoScreen()),
+                        builder: (context) => const InfoScreen(),
+                      ),
                     );
                   },
                   tooltip: 'Info',

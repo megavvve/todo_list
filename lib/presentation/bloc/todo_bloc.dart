@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/repository/data/local/database/database.dart';
+import '../../data/database.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
@@ -17,8 +17,9 @@ class TodosBloc extends Bloc<TodoEvent, TodosState> {
   void _onAddTodo(AddTodo event, Emitter<TodosState> emit) {
     final state = this.state;
     final todo = event.todo;
-    emit(TodosState(todoList: List.from(state.todoList)..add(todo)));
+    
     db.addTodo(todo);
+    emit(TodosState(todoList: List.from(state.todoList)..add(todo)));
   }
 
   void _onUpdateTodos(UpdateTodo event, Emitter<TodosState> emit) {
@@ -35,13 +36,13 @@ class TodosBloc extends Bloc<TodoEvent, TodosState> {
       db.updateTodo(todo.copyWith(isDone: false));
     }
 
-    emit(TodosState(todoList: allTodos));
+    emit(TodosState(todoList: allTodos,),);
   }
 
   Future<void> _onInitLoad(InitLoad event, Emitter<TodosState> emit) async {
 
     List<Todo> allTodos = await db.getTodosList();
 
-    emit(TodosState(todoList: allTodos));
+    emit(TodosState(todoList: allTodos,),);
   }
 }
